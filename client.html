@@ -3,17 +3,52 @@
 
     const socket = io.connect("http://localhost:3000/");
 
+    socket.on("chatMessageFromServer", ({ author, message }) => {
+        appendMessageToChat(author, message);
+    });
+
+    const appendMessageToChat = (author, message) => {
+        const content = document.createElement("div");
+        content.innerHTML = `<p><strong>${author}</p></strong><p>${message}</p>`;
+        document.getElementById("chat-results").appendChild(content);
+    };
+
     const sendMessageToServer = (message) => {
-        socket.emit("chatMessage", message);
+        socket.emit("chatMessageFromClient", { author, message });
     };
 
     document.getElementById("chat-input").addEventListener("keypress", (e) => {
         if (e.key == "Enter") {
             sendMessageToServer(e.target.value);
+            e.target.value = "";
         }
     });
+
+    document.getElementById("chat-send").addEventListener("click", (e) => {
+        const chatInput = document.getElementById("chat-input");
+        sendMessageToServer(chatInput.value);
+        chatInput.value = "";
+    });
+
+    const author = window.prompt("What's your chat name?");
 </script>
-<body>
-    <div id="chat-results"></div>
-    <input type="text" id="chat-input"/>
-</body>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <main class="main-content">
+            <div class="chat-results-window">
+                <h2>Current Chat:</h2>
+                <div id="chat-results"></div>
+            </div>
+            <div class="chat-input-window">
+                <label for="chat-input">Drop a Line!</label>
+                <input type="text" id="chat-input" />
+                <button type="submit" id="chat-send">Send</button>
+            </div>
+        </main>
+    </body>
+</html>

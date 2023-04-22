@@ -1,0 +1,26 @@
+.main-content {
+    display: flex;
+    flex-flow: column wrap;
+    height: 100%;
+}
+
+.chat-results-window {
+    height: 90%;
+    width: 100%;
+}
+
+.chat-input-window {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    width: 100%;
+}
+
+.chat-input-window label {
+    padding-right: 10px;
+}
+
+.chat-input-window input {
+    width: 300px;
+}
